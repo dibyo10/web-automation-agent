@@ -1,0 +1,28 @@
+{
+  "name": "web-auto-agent",
+  "version": "1.0.0",
+  "description": "An intelligent website automation agent (mini Browser-Use) built with Google ADK + Gemini + Playwright. Brain (ADK LlmAgent) decides actions, Eyes (Gemini vision) locate fields, Hands (Playwright) act.",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "start": "node index.js",
+    "demo": "node index.js",
+    "test:browser": "node scripts/testBrowser.js"
+  },
+  "keywords": [
+    "google-adk",
+    "gemini",
+    "playwright",
+    "browser-automation",
+    "ai-agent"
+  ],
+  "author": "",
+  "license": "MIT",
+  "dependencies": {
+    "@google/adk": "latest",
+    "@google/genai": "latest",
+    "dotenv": "latest",
+    "playwright": "latest",
+    "zod": "latest"
+  }
+}
