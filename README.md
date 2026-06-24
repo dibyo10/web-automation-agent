@@ -35,26 +35,31 @@ visible (great for orienting or handling pop-ups), and `locate_element(descripti
 returns the *pixel coordinate* of any element it describes — even ordinal ones like
 "the 5th video result". The Hands then act on those coordinates.
 
+```mermaid
+flowchart LR
+    G([Goal in plain English]) --> B
+    subgraph Agent
+      direction TB
+      B["🧠 Brain<br/>Gemini + Google ADK<br/>agents/"]
+      E["👀 Eyes<br/>Gemini vision<br/>services/vision.js"]
+      H["✋ Hands<br/>Playwright<br/>services/browser.js"]
+    end
+    B -- what's on screen? --> E
+    E -- text + coordinates --> B
+    B -- click / type here --> H
+    H -- acts on --> P[(Real browser page)]
+    E -. reads .-> P
+```
+
 ### The agent loop (what Google ADK runs for you)
 
-```
-        ┌─────────────────────────────────────────────┐
-        │  Goal: "search YouTube and play the 5th video"│
-        └─────────────────────────────────────────────┘
-                          │
-                          ▼
-   ┌──────────────────────────────────────────────────────┐
-   │  Gemini (Brain) picks ONE tool to call next           │◀────┐
-   └──────────────────────────────────────────────────────┘     │
-                          │                                       │
-                          ▼                                       │
-   ┌──────────────────────────────────────────────────────┐     │
-   │  ADK Runner executes the tool (Hands / Eyes)          │     │
-   │  e.g. locate_element → click_on_screen → send_keys    │     │
-   └──────────────────────────────────────────────────────┘     │
-                          │  tool result fed back to the model    │
-                          └───────────────────────────────────────┘
-                          (repeats until the model says "done")
+```mermaid
+flowchart TD
+    Goal([Goal: play the 5th video]) --> R["1 · Reason<br/>decide the next step"]
+    R --> A["2 · Act<br/>call ONE tool<br/>locate / click / type …"]
+    A --> O["3 · Observe<br/>read the tool result"]
+    O -->|not done| R
+    O -->|goal complete| D([Screenshot & summarise])
 ```
 
 ---
